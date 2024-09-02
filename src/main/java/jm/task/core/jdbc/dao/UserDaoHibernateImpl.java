@@ -1,6 +1,7 @@
 package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.SqlQuery;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,33 +10,22 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class UserDaoHibernateImpl implements UserDao {
-    private final Session session = Util.getSessionFactory().openSession();
+    private final Session session = Util.getDBConnection(UserDaoHibernateImpl.class);
+    private final SqlQuery sqlQuery = new SqlQuery();
 
     public UserDaoHibernateImpl() {
 
     }
 
-
     @Override
     public void createUsersTable() {
-        String sql = """
-                CREATE TABLE IF NOT EXISTS users
-                (
-                    id         SERIAL PRIMARY KEY,
-                    first_name VARCHAR(20) NOT NULL,
-                    last_name  VARCHAR(20) NOT NULL,
-                    age        SMALLINT    NOT NULL
-                )
-                """;
 
-        executeTransaction(sql);
+        executeTransaction(sqlQuery.getQuery("createTable"));
     }
 
     @Override
     public void dropUsersTable() {
-        String sql = "DROP TABLE IF EXISTS users";
-
-        executeTransaction(sql);
+        executeTransaction(sqlQuery.getQuery("dropTable"));
     }
 
     @Override

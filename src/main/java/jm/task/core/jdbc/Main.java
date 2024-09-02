@@ -16,8 +16,8 @@ public class Main {
     public static void main(String[] args) {
         UserService userService = new UserServiceImpl();
 
-        userService.createUsersTable();
         userService.dropUsersTable();                                           //проверка на отсутствие исключения, при удалении несуществующей таблицы
+        userService.createUsersTable();
         userService.createUsersTable();                                         //проверка на отсутствие исключения, при создании уже существующей таблицы
 
         userService.saveUser("Ivan", "Ivanov", (byte) 20);
@@ -25,7 +25,7 @@ public class Main {
         userService.saveUser("Sergey", "Sergeev", (byte) 22);
         userService.saveUser("Vasiliy", "Vasilev", (byte) 23);
 
-        userService.removeUserById(1);                                          //удаление пользователя по id
+        userService.removeUserById(1L);                                          //удаление пользователя по id
 
         List<User> users = userService.getAllUsers();
         users.forEach(System.out::println);
