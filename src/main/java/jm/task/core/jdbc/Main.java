@@ -33,8 +33,7 @@ public class Main {
         userService.cleanUsersTable();
         userService.dropUsersTable();
 
-        Util.closeSessionFactory();
-//        Util.closeConnection();                                                 //закрытие соединения с БД
+        Util.closeDBConnection();
 
     }
 }
