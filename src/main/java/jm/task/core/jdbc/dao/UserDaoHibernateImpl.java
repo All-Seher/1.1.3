@@ -10,7 +10,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class UserDaoHibernateImpl implements UserDao {
-    private final Session session = Util.getDBConnection(UserDaoHibernateImpl.class);
+    private final Session session = Util.getSession();
     private final SqlQuery sqlQuery = new SqlQuery();
 
     public UserDaoHibernateImpl() {
@@ -59,5 +59,6 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.beginTransaction();
         session.createNativeQuery(sql).executeUpdate();
         transaction.commit();
+        session.clear();
     }
 }

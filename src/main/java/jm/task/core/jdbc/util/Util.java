@@ -1,7 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -55,20 +53,6 @@ public class Util {
         }
     }
 
-    public static <T> T getDBConnection(Class<?> clazz) {
-
-        if (UserDaoJDBCImpl.class.isAssignableFrom(clazz)) {
-            return (T) getConnection();
-        }
-
-        if (UserDaoHibernateImpl.class.isAssignableFrom(clazz)) {
-            isHibernate = true;
-            return (T) getSession();
-        }
-
-        throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
-    }
-
     public static void closeDBConnection() {
         if (!isHibernate) {
             closeConnection();
@@ -79,7 +63,7 @@ public class Util {
 
     // Возвращает единственный экземпляр класса Connection
     // реализуйте настройку соеденения с БД
-    private static Connection getConnection() {
+    public static Connection getConnection() {
         if (INSTANCE == null) {
             INSTANCE = new Util();
         }
@@ -95,7 +79,8 @@ public class Util {
         }
     }
 
-    private static Session getSession() {
+    public static Session getSession() {
+        isHibernate = true;
         if (INSTANCE == null) {
             INSTANCE = new Util();
         }
