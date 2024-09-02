@@ -17,25 +17,29 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS users.USERS" +
-                "(" +
-                "id SMALLSERIAL PRIMARY KEY, " +
-                "first_name VARCHAR(20)NOT NULL, " +
-                "last_name VARCHAR(20)NOT NULL, " +
-                "age SMALLINT NOT NULL" +
-                ")";
+        String sql = """
+                CREATE TABLE IF NOT EXISTS USERS
+                (
+                id SMALLSERIAL PRIMARY KEY,
+                first_name VARCHAR(20)NOT NULL,
+                last_name VARCHAR(20)NOT NULL,
+                age SMALLINT NOT NULL
+                )
+                """;
+
+
 
         executeStatement(sql);
     }
 
     public void dropUsersTable() {
-        String sql = "DROP TABLE IF EXISTS users.USERS";
+        String sql = "DROP TABLE IF EXISTS USERS";
 
         executeStatement(sql);
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sql = "INSERT INTO users.USERS (first_name, last_name, age) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO USERS (first_name, last_name, age) VALUES (?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
@@ -48,7 +52,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sql = "DELETE FROM users.USERS WHERE id = ?";
+        String sql = "DELETE FROM USERS WHERE id = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -60,7 +64,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-        String sql = "SELECT * FROM users.USERS";
+        String sql = "SELECT * FROM USERS";
         List<User> userList = new ArrayList<>();
 
         try {
