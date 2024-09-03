@@ -15,9 +15,9 @@ import java.util.Properties;
 
 public class Util {
     private static Util INSTANCE;
-    private Connection connection = null;
-    private Session session = null;
-    private static boolean isHibernate = false;
+    private Connection connection;
+    private Session session;
+    private static boolean isHibernate;
 
 
     private Util() {
@@ -34,9 +34,14 @@ public class Util {
             }
         } else {
             //-----------------Hibernate-----------------
+            Properties properties = new Properties();
+            properties.setProperty("jakarta.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/all_seher");
+            properties.setProperty("jakarta.persistence.jdbc.user", "postgres");
+            properties.setProperty("jakarta.persistence.jdbc.password", "1");
+
             Configuration configuration = new Configuration();
             configuration
-                    .setProperties(loadProperties())
+                    .setProperties(properties)
                     .addPackage("jm.task.core.jdbc.model")
                     .addAnnotatedClass(User.class);
 
@@ -90,15 +95,5 @@ public class Util {
 
     private static void closeSession() {
         INSTANCE.session.close();
-    }
-
-    private static Properties loadProperties() {
-        Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream("src\\main\\resources\\hibernate.properties")) {
-            properties.load(input);
-        } catch (IOException e) {
-            e.getMessage();
-        }
-        return properties;
     }
 }
