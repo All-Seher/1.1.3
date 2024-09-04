@@ -1,28 +1,25 @@
 package jm.task.core.jdbc.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class SqlQuery {
-    private Properties properties;
+@Getter
+@AllArgsConstructor
+public enum SqlQuery {
+    CREATE_TABLE("""
+            CREATE TABLE IF NOT EXISTS users
+            (
+               id         SERIAL PRIMARY KEY,
+               first_name VARCHAR(20) NOT NULL,
+               last_name  VARCHAR(20) NOT NULL,
+               age        SMALLINT    NOT NULL
+            )
+            """),
+    DROP_TABLE("DROP TABLE IF EXISTS users"),
+    INSERT("INSERT INTO users (first_name, last_name, age) VALUES (?, ?, ?)"),
+    SELECT_ALL_USERS("SELECT * FROM users"),
+    DELETE_USER("DELETE FROM users WHERE id = ?"),
+    TRUNCATE("TRUNCATE users");
 
-    public SqlQuery() {
-        properties = new Properties();
-        properties = loadQuery();
-    }
-
-    private Properties loadQuery() {
-        try (FileInputStream input = new FileInputStream("src/main/resources/sql.properties")) {
-            properties.load(input);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return properties;
-    }
-
-    public String getQuery(String key) {
-        return properties.getProperty(key);
-    }
+    private final String key;
 }
