@@ -6,8 +6,6 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -17,8 +15,7 @@ public class Util {
     private static Util INSTANCE;
     private Connection connection;
     private Session session;
-    private static boolean isHibernate;
-
+    private static Boolean isHibernate;
 
     private Util() {
         //-----------------JDBC-----------------
@@ -58,16 +55,6 @@ public class Util {
         }
     }
 
-    public static void closeDBConnection() {
-        if (!isHibernate) {
-            closeConnection();
-        } else {
-            closeSession();
-        }
-    }
-
-    // Возвращает единственный экземпляр класса Connection
-    // реализуйте настройку соеденения с БД
     public static Connection getConnection() {
         if (INSTANCE == null) {
             INSTANCE = new Util();
@@ -76,7 +63,7 @@ public class Util {
         return INSTANCE.connection;
     }
 
-    private static void closeConnection() {
+    public static void closeConnection() {
         try {
             INSTANCE.connection.close();
         } catch (SQLException e) {
@@ -93,7 +80,7 @@ public class Util {
         return INSTANCE.session;
     }
 
-    private static void closeSession() {
+    public static void closeSession() {
         INSTANCE.session.close();
     }
 }

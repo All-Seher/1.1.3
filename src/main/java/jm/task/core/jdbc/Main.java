@@ -30,7 +30,7 @@ public class Main {
         userService.cleanUsersTable();
         userService.dropUsersTable();
 
-        Util.closeDBConnection();
-
+//        Util.closeConnection();
+        Util.closeSession();
     }
 }
