@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.Connection;
@@ -32,9 +33,9 @@ public class Util {
         } else {
             //-----------------Hibernate-----------------
             Properties properties = new Properties();
-            properties.setProperty("jakarta.persistence.jdbc.url", "jdbc:postgresql://localhost:5432/all_seher");
-            properties.setProperty("jakarta.persistence.jdbc.user", "postgres");
-            properties.setProperty("jakarta.persistence.jdbc.password", "1");
+            properties.setProperty(AvailableSettings.JAKARTA_JDBC_URL, "jdbc:postgresql://localhost:5432/all_seher");
+            properties.setProperty(AvailableSettings.JAKARTA_JDBC_USER, "postgres");
+            properties.setProperty(AvailableSettings.JAKARTA_JDBC_PASSWORD, "1");
 
             Configuration configuration = new Configuration();
             configuration
